@@ -18,8 +18,16 @@ $ViewList = array(
 		'default_navigation_part' => 'ezsetupnavigationpart',
 		'single_post_actions'     => array(
 			'CheckoutLocalBranch'  => 'CheckoutLocalBranch',
-			'CheckoutRemoteBranch' => 'CheckoutRemoteBranch'
+			'CheckoutRemoteBranch' => 'CheckoutRemoteBranch',
+			'SetCommitsFilter'     => 'SetCommitsFilter',
+			'CheckoutCommit'       => 'CheckoutCommit'
 		)
+	),
+	'commit_details' => array(
+		'script'                  => 'commit_details.php',
+		'functions'               => array( 'git_manager' ),
+		'params'                  => array( 'Hash' ),
+		'default_navigation_part' => 'ezsetupnavigationpart'
 	)
 );
 

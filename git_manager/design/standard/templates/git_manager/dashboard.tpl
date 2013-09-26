@@ -80,19 +80,19 @@
 		<div class="header-mainline"></div>
 	</div>
 
-	<form name="{''|ezurl( 'no' )}" method="post" action="/git_manager/dashboard">
+	<form action="{'git_manager/dashboard'|ezurl( 'no' )}" method="post">
 		<div class="block">
 			<fieldset>					
 				<label>{'Author'|i18n( 'extension/git_manager' )}</label>
-				<input type="text" name="author" value="" />
+				<input type="text" name="filter[author]" value="{$filter.author}" />
 
 				<label>{'Start date'|i18n( 'extension/git_manager' )}</label>
-				<input type="text" name="start_date" value="" class="date-picker" />
+				<input type="text" name="filter[start_date]" value="{$filter.start_date}" class="date-picker" />
 
 				<label>{'End date'|i18n( 'extension/git_manager' )}</label>
-				<input type="text" name="end_date" value="" class="date-picker" />
+				<input type="text" name="filter[end_date]" value="{$filter.end_date}" class="date-picker" />
 
-				<input class="button" type="submit" name="SetFilter" value="{'Filter'|i18n( 'extension/git_manager' )}">
+				<input class="button" type="submit" name="SetCommitsFilter" value="{'Filter'|i18n( 'extension/git_manager' )}">
 			</fieldset>
 		</div>        
 	</form>
@@ -108,14 +108,14 @@
 							<th>Author</th>
 							<th>Date</th>
 						</tr>
-						{foreach $transactions as $transaction sequence array( 'bgdark', 'bglight' ) as $style }
+						{foreach $commits as $commit sequence array( 'bgdark', 'bglight' ) as $style}
+						<tr class="{$style}">
+							<td><a href="{concat( 'git_manager/commit_details/', $commit.hash )|ezurl( 'no' )}">{$commit.hash}</a></td>
+							<td>{$commit.title}</td>
+							<td>{$commit.author}</td>
+							<td>{$commit.date}</td>
+						</tr>
 						{/foreach}
-				<tr class="bglight">
-					<td><a href="/git_manager/commit_details/HASH">HASH</a></td>
-					<td>TITLE</td>
-					<td>AUTHOR ADAASDASD</td>
-					<td>DATE</td>
-				</tr>
 			</tbody>
 		</table>
 	</div></div></div>
@@ -124,7 +124,7 @@
 {literal}
 <script>
 jQuery( function() {
-    $( '.date-picker' ).datepicker();
+    $( '.date-picker' ).datepicker( { dateFormat: "yy-mm-dd" } );
 } );
 </script>
 {/literal}
