@@ -1,0 +1,6 @@
+<?php /* #?ini charset="utf-8"?
+
+[Leftmenu_setup]
+Links[git_manager]=git_manager/dashboard
+LinkNames[git_manager]=GIT Manager
+*/ ?>
