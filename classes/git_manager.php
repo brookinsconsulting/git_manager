@@ -1,6 +1,7 @@
 <?php
 /**
  * @package GitManager
+ * @class   GitManager
  * @author  Serhey Dolgushev <dolgushev.serhey@gmail.com>
  * @date    26 Sep 2013
  **/
