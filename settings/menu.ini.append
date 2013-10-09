@@ -3,7 +3,7 @@
 [Leftmenu_setup]
 Links[git_manager]=git_manager/dashboard
 LinkNames[git_manager]=GIT Manager
-Links[git_manager]=git_manager/dump
-LinkNames[git_manager]=Dump assets
+Links[asset_manager]=git_manager/dump
+LinkNames[asset_manager]=Dump assets
 
 */ ?>
