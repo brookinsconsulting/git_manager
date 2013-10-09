@@ -17,7 +17,9 @@ $filter  = array(
 	'author'     => null
 );
 
-$filter = array_merge( $filter, $http->sessionVariable( 'git_commits_filter', array() ) );
+$sess = $http->sessionVariable( 'git_commits_filter', array() );
+
+$filter = is_array($sess) ? array_merge( $filter, $sess ) : $filter;
 
 if(
 	$module->isCurrentAction( 'CheckoutLocalBranch' )

@@ -1,5 +1,5 @@
-{ezscript_require( array( 'ezjsc::jqueryUI' ) )}
-{ezcss_require( 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/cupertino/jquery-ui.min.css' )}
+{ezscript_require( array( 'ezjsc::jqueryui' ) )}
+{ezcss_require( 'http://ajax.googleapis.com/ajax/libs/jqueryUI/1.10.3/themes/cupertino/jquery-ui.min.css' )}
 
 {if $error}
 <div class="message-error">

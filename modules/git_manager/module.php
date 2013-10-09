@@ -28,9 +28,16 @@ $ViewList = array(
 		'functions'               => array( 'git_manager' ),
 		'params'                  => array( 'Hash' ),
 		'default_navigation_part' => 'ezsetupnavigationpart'
+	),
+	'dump' => array(
+		'script'                  => 'dump.php',
+		'functions'               => array( 'dump' ),
+		'params'                  => array(),
+		'default_navigation_part' => 'ezsetupnavigationpart'
 	)
 );
 
 $FunctionList = array(
-	'git_manager' => array()
+	'git_manager' => array(),
+	'dump' => array()
 );
