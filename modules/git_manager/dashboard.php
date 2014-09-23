@@ -45,6 +45,12 @@ if(
 	$message = '"' . $hash . '" commit is checked out';
 } elseif( $module->isCurrentAction( 'SetCommitsFilter' ) ) {
 	$filter = array_merge( $filter, $http->postVariable( 'filter', array() ) );
+} elseif( $module->isCurrentAction( 'CheckoutUpdateSubmodules' ) ) {
+        $output = $git->updateSubmodules();
+        if( $output == '' )
+        {
+            $output = 'Checkout submodules already up to date!';
+        }
 }
 
 $http->setSessionVariable( 'git_commits_filter', $filter );

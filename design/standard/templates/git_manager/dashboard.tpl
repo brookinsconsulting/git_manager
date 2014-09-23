@@ -69,6 +69,14 @@
 				</form>
 			</div>
 
+			<div class="block">
+				<form action="{'git_manager/dashboard'|ezurl( 'no' )}" method="post">
+					<label class="inline">{'Update Local Submodules'|i18n( 'extension/git_manager' )}:
+					</label>
+					<input class="button" type="submit" name="CheckoutUpdateSubmodules" value="{'Update'|i18n( 'extension/git_manager' )}">
+				</form>
+			</div>
+
 		</div>
 	</div>
 

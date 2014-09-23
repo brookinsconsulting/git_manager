@@ -20,7 +20,8 @@ $ViewList = array(
 			'CheckoutLocalBranch'  => 'CheckoutLocalBranch',
 			'CheckoutRemoteBranch' => 'CheckoutRemoteBranch',
 			'SetCommitsFilter'     => 'SetCommitsFilter',
-			'CheckoutCommit'       => 'CheckoutCommit'
+			'CheckoutCommit'       => 'CheckoutCommit',
+                        'CheckoutUpdateSubmodules' => 'CheckoutUpdateSubmodules'
 		)
 	),
 	'commit_details' => array(

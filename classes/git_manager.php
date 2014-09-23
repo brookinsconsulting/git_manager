@@ -133,6 +133,10 @@ class GitManager
 	public function checkoutCommit( $hash ) {
 		return $this->cli( 'checkout ' . escapeshellcmd( $hash ) );
 	}
+
+	public function updateSubmodules() {
+		return $this->cli( 'submodule update --init --recursive' );
+	}
 	
 	private function cli( $command, $explodeLines = false ) {
 		$cmd    = 'cd ' . self::$path . ' && git ' . $command . ' 2>&1';
