@@ -52,6 +52,7 @@
 						</select>
 					</label>
 					<input class="button" type="submit" name="CheckoutLocalBranch" value="{'Checkout'|i18n( 'extension/git_manager' )}">
+                                        <label>{'Regenerate autoloads'|i18n( 'extension/git_manager' )}: <input type="checkbox" name="regenerate" value="regenerate"></label>
 				</form>
 			</div>
 
@@ -66,6 +67,7 @@
 						</select>
 					</label>
 					<input class="button" type="submit" name="CheckoutRemoteBranch" value="{'Checkout'|i18n( 'extension/git_manager' )}">
+                                        <label>{'Regenerate autoloads'|i18n( 'extension/git_manager' )}: <input type="checkbox" name="regenerate" value="regenerate"></label>
 				</form>
 			</div>
 
