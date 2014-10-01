@@ -124,7 +124,7 @@ class GitManager
 	}
 
         public function pull( $branch, $regenerateAutoloads = false ) {
-                return $this->cli( 'pull origin ' . $branch, false, $regenerateAutoloads );
+                return $this->cli( 'pull origin ' . $branch, false, false, $regenerateAutoloads );
         }
 
 	public function commitInfo( $hash ) {
@@ -146,7 +146,7 @@ class GitManager
 		return $result;
 	}
 
-	private function cli( $command, $path = false, $explodeLines = false ) {
+	private function cli( $command, $path = false, $explodeLines = false, $regenerateAutoloads = false ) {
                 if( $path === false )
                 {
                     $cdCmd = 'cd ' . self::$path;
