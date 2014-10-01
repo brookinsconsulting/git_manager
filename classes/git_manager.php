@@ -57,7 +57,7 @@ class GitManager
 	}
 
 	private function getLocalBranches() {
-		$branches = $this->cli( 'branch', true );
+		$branches = $this->cli( 'branch', false, true );
 		foreach( $branches as $key => $branch )  {
 			$branches[ $key ] = trim( $branch, '* ' );
 		}
@@ -66,7 +66,7 @@ class GitManager
 	}
 
 	private function getRemoteBranches() {
-		$branches = $this->cli( 'branch -r', true );
+		$branches = $this->cli( 'branch -r', false, true );
 		foreach( $branches as $key => $branch ) {
 			if( strpos( $branch, 'origin/HEAD' ) !== false ) {
 				unset( $branches[ $key ] );
@@ -97,6 +97,7 @@ class GitManager
 		
 		$commits = $this->cli(
 			'log -' . $limit . $filter . ' --pretty=format:"%H' . $separator . '%an' . $separator . '%cD' . $separator . '%s"',
+                        false,
 			true
 		);
 	
@@ -135,16 +136,32 @@ class GitManager
 	}
 
 	public function updateSubmodules() {
-		return $this->cli( 'submodule update --init --recursive' );
+                $result = $this->cli( 'submodule update --init --recursive', false );
+
+                if( strpos( $result, 'You need to run this command from the toplevel of the working tree') !== false )
+                {
+                    $result = $this->cli( 'submodule update --init --recursive', '..' );
+                }
+
+		return $result;
 	}
 
-        private function cli( $command, $explodeLines = false, $regenerateAutoloads = false ) {
-                $cmd = 'cd ' . self::$path . ' && git ' . $command . ' 2>&1';
-                $result = trim( shell_exec( $cmd ) );
+	private function cli( $command, $path = false, $explodeLines = false ) {
+                if( $path === false )
+                {
+                    $cdCmd = 'cd ' . self::$path;
+                }
+                else
+                {
+                    $cdCmd = 'cd ' . $path;
+                }
+
+		$cmd    = $cdCmd . ' && git ' . $command . ' 2>&1';
+		$result = trim( shell_exec( $cmd ) );
 
                 if( $regenerateAutoloads === true )
                 {
-                    $result .= trim( shell_exec( 'cd ' . self::$path . ' && ./bin/php/ezpgenerateautoloads.php 2>&1' ) );
+                    $result .= trim( shell_exec( $cdCmd . ' && ./bin/php/ezpgenerateautoloads.php 2>&1' ) );
                     // clean up results for display within the browser for easy readability
                     $result = str_replace( '[0m', '', str_replace( '[31m', '', str_replace( "of them to the autoload array.\n", 'of them to the autoload array.', str_replace('Scanning for PHP-files', "\n\nScanning for PHP-files", $result ) ) ) );
                 }
