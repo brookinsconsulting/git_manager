@@ -57,7 +57,7 @@ class GitManager
 	}
 
 	private function getLocalBranches() {
-		$branches = $this->cli( 'branch', true );
+		$branches = $this->cli( 'branch', false, true );
 		foreach( $branches as $key => $branch )  {
 			$branches[ $key ] = trim( $branch, '* ' );
 		}
@@ -66,7 +66,7 @@ class GitManager
 	}
 
 	private function getRemoteBranches() {
-		$branches = $this->cli( 'branch -r', true );
+		$branches = $this->cli( 'branch -r', false, true );
 		foreach( $branches as $key => $branch ) {
 			if( strpos( $branch, 'origin/HEAD' ) !== false ) {
 				unset( $branches[ $key ] );
@@ -97,6 +97,7 @@ class GitManager
 		
 		$commits = $this->cli(
 			'log -' . $limit . $filter . ' --pretty=format:"%H' . $separator . '%an' . $separator . '%cD' . $separator . '%s"',
+                        false,
 			true
 		);
 	
@@ -135,11 +136,27 @@ class GitManager
 	}
 
 	public function updateSubmodules() {
-		return $this->cli( 'submodule update --init --recursive' );
+                $result = $this->cli( 'submodule update --init --recursive', false );
+
+                if( strpos( $result, 'You need to run this command from the toplevel of the working tree') !== false )
+                {
+                    $result = $this->cli( 'submodule update --init --recursive', '..' );
+                }
+
+		return $result;
 	}
 	
-	private function cli( $command, $explodeLines = false ) {
-		$cmd    = 'cd ' . self::$path . ' && git ' . $command . ' 2>&1';
+	private function cli( $command, $path = false, $explodeLines = false ) {
+                if( $path === false )
+                {
+                    $cdCmd = 'cd ' . self::$path;
+                }
+                else
+                {
+                    $cdCmd = 'cd ' . $path;
+                }
+
+		$cmd    = $cdCmd . ' && git ' . $command . ' 2>&1';
 		$result = trim( shell_exec( $cmd ) );
 
 		if( $explodeLines ) {
