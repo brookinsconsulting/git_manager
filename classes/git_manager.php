@@ -10,16 +10,16 @@ class GitManager
 {
 	private static $path = './';
 	private static $instance = null;
-	
+
 	private $callbackAttributes = array(
 		'current_branch'  => 'getCurrentBranch',
 		'current_commit'  => 'getCurrentCommit',
 		'local_branches'  => 'getLocalBranches',
 		'remote_branches' => 'getRemoteBranches'
 	);
-	
+
 	private function __construct() {}
-	
+
 	public static function getInstance() {
 		if( self::$instance === null ) {
 			self::$instance = new self();
@@ -27,7 +27,7 @@ class GitManager
 		
 		return self::$instance;
 	}
-	
+
 	public function attributes() {
 		return array_keys( $this->callbackAttributes );
 	}
@@ -35,7 +35,7 @@ class GitManager
 	public function hasAttribute( $attr ) {
 		return isset( $this->callbackAttributes[ $attr ] );
 	}
-	
+
 	public function attribute( $attr ) {
 		if( isset( $this->callbackAttributes[ $attr ] ) === false ) {
 			throw new Exception( 'Undefined "' . $attr . '" attribute' );
@@ -47,11 +47,11 @@ class GitManager
 		);
 		return call_user_func( $callback );
 	}
-	
+
 	private function getCurrentBranch() {
 		return $this->cli( 'rev-parse --abbrev-ref HEAD' );
 	}
-	
+
 	private function getCurrentCommit() {
 		return $this->cli( 'rev-parse --verify HEAD' );
 	}
@@ -122,14 +122,14 @@ class GitManager
 		return $this->cli( 'checkout ' . $branch );
 	}
 
-	public function pull( $branch ) {
-		return $this->cli( 'pull origin ' . $branch );
-	}
+        public function pull( $branch, $regenerateAutoloads = false ) {
+                return $this->cli( 'pull origin ' . $branch, false, $regenerateAutoloads );
+        }
 
 	public function commitInfo( $hash ) {
 		return $this->cli( 'log -1 -p ' . escapeshellcmd( $hash ) );
 	}
-	
+
 	public function checkoutCommit( $hash ) {
 		return $this->cli( 'checkout ' . escapeshellcmd( $hash ) );
 	}
@@ -137,10 +137,17 @@ class GitManager
 	public function updateSubmodules() {
 		return $this->cli( 'submodule update --init --recursive' );
 	}
-	
-	private function cli( $command, $explodeLines = false ) {
-		$cmd    = 'cd ' . self::$path . ' && git ' . $command . ' 2>&1';
-		$result = trim( shell_exec( $cmd ) );
+
+        private function cli( $command, $explodeLines = false, $regenerateAutoloads = false ) {
+                $cmd = 'cd ' . self::$path . ' && git ' . $command . ' 2>&1';
+                $result = trim( shell_exec( $cmd ) );
+
+                if( $regenerateAutoloads === true )
+                {
+                    $result .= trim( shell_exec( 'cd ' . self::$path . ' && ./bin/php/ezpgenerateautoloads.php 2>&1' ) );
+                    // clean up results for display within the browser for easy readability
+                    $result = str_replace( '[0m', '', str_replace( '[31m', '', str_replace( "of them to the autoload array.\n", 'of them to the autoload array.', str_replace('Scanning for PHP-files', "\n\nScanning for PHP-files", $result ) ) ) );
+                }
 
 		if( $explodeLines ) {
 			$result = explode( "\n", $result );

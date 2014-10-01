@@ -30,10 +30,11 @@ if(
 		$git->attribute( 'remote_branches' )
 	);
 	$branch = $http->postVariable( 'branch', null );
-	
-	if( in_array( $branch, $branches ) ) {
-		$output  = $git->checkout( $branch );
-		$output .= "\n" . $git->pull( $branch );
+        $regenerateAutoloads = $http->postVariable( 'regenerate', false ) == 'regenerate' ? true : false;
+
+        if( in_array( $branch, $branches ) ) {
+                $output  = $git->checkout( $branch );
+                $output .= "\n" . $git->pull( $branch, $regenerateAutoloads );
 		$message = '"' . $branch . '" branch is checked out';
 	} else {
 		$error = 'Invalid "' . $branch . '" branch';
