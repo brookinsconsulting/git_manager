@@ -10,10 +10,13 @@ class git_managerInfo
 {
 	public static function info() {
 		return array(
-			'Name'      => 'GIT Manager',
-			'Version'   => '1.0',
+			'Name'      => '<a href="http://projects.ez.no/git_manager">Git Manager</a>',
+			'Version'   => '1.0.1',
 			'Author'    => 'Serhey Dolgushev',
-			'Copyright' => 'Copyright &copy; ' . date( 'Y' ) . ' <a href="http://ua.linkedin.com/in/serheydolgushev" target="blank">Serhey Dolgushev</a>'
+			'Copyright' => 'Copyright &copy; ' . date( 'Y' ) . ' <a href="http://ua.linkedin.com/in/serheydolgushev" target="blank">Serhey Dolgushev</a>',
+                        'License' => "GNU General Public License",
+                        'info_url'  => 'https://github.com/brookinsconsulting/git_manager'
+                        
 		);
 	}
 }
